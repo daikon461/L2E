@@ -39,20 +39,72 @@ public final class SetBonuses {
         if (set == null) return;
         boolean physical = isPhysical(set);
         int t = set.tier();
-        event.getToolTip().add(Component.literal("◆ セット効果: " + set.name()).withStyle(ChatFormatting.GOLD));
+        int equipped = 0;
+        Player player = event.getEntity();
+        if (player != null) equipped = equippedSets(player).getOrDefault(set, 0);
+        boolean hazen = set.key().startsWith("hazennstuff:");
+        event.getToolTip().add(Component.literal("━━━━━━━━ セット効果 ━━━━━━━━").withStyle(ChatFormatting.DARK_GRAY));
+        event.getToolTip().add(Component.literal("◆ " + set.name() + "  [" + equipped + "/4部位]").withStyle(ChatFormatting.GOLD));
         if (physical) {
             PhysicalBonus b = physicalBonus(set);
-            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"  2部位: 攻撃力 +%d%% / 最大体力 +%d%%", b.ad2, b.hp2)).withStyle(ChatFormatting.GREEN));
-            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"  3部位: 攻撃力 +%d%% / 防御 +%d / 防具強度 +%d", b.ad3, b.armor3, b.tough3)).withStyle(ChatFormatting.GREEN));
-            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"  4部位: 攻撃力 +%d%% / 最大体力 +%d%% / 移動速度 +%d%% / KB耐性 +%d%%", b.ad4, b.hp4, b.speed4, (int)Math.round(b.kb4*100))).withStyle(ChatFormatting.RED));
-            String mastery = fullSetMasteryText(set); if(!mastery.isEmpty()) event.getToolTip().add(Component.literal("  ◆ フルセット特性: " + mastery).withStyle(ChatFormatting.YELLOW));
+            bonusLine(event, 2, equipped, String.format(Locale.ROOT,"攻撃力 +%d%% / 最大体力 +%d%%", b.ad2, b.hp2));
+            bonusLine(event, 3, equipped, String.format(Locale.ROOT,"攻撃力 +%d%% / 防御力 +%d / 防具強度 +%d", b.ad3, b.armor3, b.tough3));
+            bonusLine(event, 4, equipped, String.format(Locale.ROOT,"攻撃力 +%d%% / 最大体力 +%d%%", b.ad4, b.hp4));
+            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"     移動速度 +%d%% / ノックバック耐性 +%d%%", b.speed4, (int)Math.round(b.kb4*100))).withStyle(equipped >= 4 ? ChatFormatting.GREEN : ChatFormatting.DARK_GRAY));
         } else {
             String school = schoolName(set.school());
-            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"  2部位: %s威力 +%d%% / 最大マナ +%d%%",school,24+t*9,23+t*9)).withStyle(ChatFormatting.AQUA));
-            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"  3部位: %s威力 +%d%% / マナ回復 +%d%% / 詠唱短縮 +%d%%",school,18+t*7,30+t*11,12+t*5)).withStyle(ChatFormatting.AQUA));
-            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"  4部位: %s威力 +%d%% / CT短縮 +%d%% / 魔法耐性 +%d%%",school,30+t*11,20+t*7,23+t*9)).withStyle(ChatFormatting.LIGHT_PURPLE));
-            String mastery = fullSetMasteryText(set); if(!mastery.isEmpty()) event.getToolTip().add(Component.literal("  ◆ フルセット特性: " + mastery).withStyle(ChatFormatting.YELLOW));
+            bonusLine(event, 2, equipped, String.format(Locale.ROOT,"%s威力 +%d%% / 最大マナ +%d%%", school,24+t*9,23+t*9));
+            bonusLine(event, 3, equipped, String.format(Locale.ROOT,"%s威力 +%d%% / マナ回復 +%d%%", school,18+t*7,30+t*11));
+            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"     詠唱時間短縮 +%d%%",12+t*5)).withStyle(equipped >= 3 ? ChatFormatting.AQUA : ChatFormatting.DARK_GRAY));
+            bonusLine(event, 4, equipped, String.format(Locale.ROOT,"%s威力 +%d%% / CT短縮 +%d%%", school,30+t*11,20+t*7));
+            event.getToolTip().add(Component.literal(String.format(Locale.ROOT,"     魔法耐性 +%d%% / 最大体力 +%d%%",23+t*9,12+t*7)).withStyle(equipped >= 4 ? ChatFormatting.AQUA : ChatFormatting.DARK_GRAY));
         }
+        String mastery = fullSetMasteryText(set);
+        if (!mastery.isEmpty()) event.getToolTip().add(Component.literal("★ フルセット追加効果: " + mastery).withStyle(equipped >= 4 ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY));
+        if (hazen) {
+            String detail = hazenExtraText(set);
+            if (!detail.isEmpty()) event.getToolTip().add(Component.literal("  固有パッシブ: " + detail).withStyle(equipped >= 4 ? ChatFormatting.YELLOW : ChatFormatting.DARK_GRAY));
+            event.getToolTip().add(Component.literal("  固有アクティブ: 4部位装備時に戦闘で自動発動").withStyle(equipped >= 4 ? ChatFormatting.LIGHT_PURPLE : ChatFormatting.DARK_GRAY));
+        }
+        event.getToolTip().add(Component.literal("緑/水色: 発動中  |  灰色: 未解放").withStyle(ChatFormatting.GRAY));
+    }
+
+    private static void bonusLine(ItemTooltipEvent event, int required, int equipped, String description) {
+        event.getToolTip().add(Component.literal((equipped >= required ? "● " : "○ ") + required + "部位: " + description)
+                .withStyle(equipped >= required ? ChatFormatting.GREEN : ChatFormatting.DARK_GRAY));
+    }
+
+    private static String hazenExtraText(SetRegistry.ArmorSet set) {
+        String id = set.key().substring("hazennstuff:".length());
+        return switch (id) {
+            case "seraph" -> "最大体力 +24% / 魔法耐性 +30%";
+            case "charged_scourge" -> "攻撃速度 +26% / 移動速度 +15%";
+            case "soul_flame" -> "炎魔法威力 +32% / 攻撃力 +12%";
+            case "supreme_witch" -> "魔法威力 +36% / 最大マナ +38%";
+            case "cryogenic_ruler" -> "防具強度 +6 / 最大体力 +25%";
+            case "ender_dragon" -> "移動速度 +22% / CT短縮 +18%";
+            case "flesh_mass" -> "最大体力 +42% / 防具強度 +5";
+            case "legionnaire" -> "攻撃力 +32% / 防御力 +7";
+            case "fireblossom_knight" -> "攻撃力 +26% / 炎魔法威力 +20%";
+            case "creaking" -> "最大体力 +28% / 防御力 +5";
+            default -> hazenRoleText(set);
+        };
+    }
+
+    private static String hazenRoleText(SetRegistry.ArmorSet set) {
+        String n = set.key().substring("hazennstuff:".length());
+        int t = set.tier();
+        if (n.contains("knight") || n.contains("legionnaire") || n.contains("commander") || n.contains("templar") || n.contains("guardian"))
+            return "防御力 +" + (3+t*2) + " / 最大体力 +" + (10+t*5) + "%";
+        if (n.contains("hunter") || n.contains("predator") || n.contains("scout") || n.contains("weaver"))
+            return "移動速度 +" + (9+t*3) + "% / 攻撃速度 +" + (10+t*4) + "%";
+        if (n.contains("robe") || n.contains("mage") || n.contains("witch") || n.contains("gown"))
+            return "最大マナ +" + (14+t*7) + "% / マナ回復 +" + (12+t*6) + "%";
+        if (set.school().equals("fire") || set.school().equals("lightning"))
+            return "攻撃力 +" + (10+t*4) + "% / 攻撃速度 +" + (7+t*3) + "%";
+        if (set.school().equals("ice") || set.school().equals("nature"))
+            return "防具強度 +" + (2+t) + " / 最大体力 +" + (10+t*5) + "%";
+        return "攻撃力 +" + (8+t*4) + "% / 最大体力 +" + (8+t*4) + "%";
     }
 
     private static Map<SetRegistry.ArmorSet,Integer> equippedSets(Player p) {
