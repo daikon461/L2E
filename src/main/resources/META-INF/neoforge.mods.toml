@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+[[mods]]
+modId="l2h_equipment_overhaul"
+version="1.0.1"
+displayName="L2H Equipment Overhaul"
+authors="OpenAI / user project"
+description='''High-power physical and magic armor set bonuses for a L2Hostility modpack.'''
+[[dependencies.l2h_equipment_overhaul]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.0,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.l2h_equipment_overhaul]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1,1.21.2)"
+ordering="NONE"
+side="BOTH"

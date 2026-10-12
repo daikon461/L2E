@@ -1,0 +1,13 @@
+L2H Equipment Overhaul v1.0.1 ビルド設定修正版
+
+・Gradle 8.14に統一（Actions / wrapper.properties / 案内）
+・GitHub Actionsの名称と成果物名を更新
+・プロジェクト名を統合版に更新
+・Modバージョン表記を1.0.1に統一
+・Javaの戦闘・セット効果コードは変更なし
+
+重要: この実行環境にはGradle本体と依存ライブラリがないため、実コンパイルは未確認。Minecraft起動も未確認。
+GitHubのリポジトリ直下にZIP内のファイル（.githubを含む）をアップロードし、Actions > Build L2H Equipment Overhaul > Run workflow を実行してください。
+成功時はArtifactsからJARを取得。失敗時はエラーログを共有してください。
+ローカルgradlewにはgradle-wrapper.jarが同梱されていません。GitHub Actionsではインストール済みGradleを直接実行するため不要です。
+旧armorsetsとfantasy_armor_issのJARは統合版と同時導入しないでください。

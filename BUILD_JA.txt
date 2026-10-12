@@ -1,0 +1,22 @@
+L2H Armor Set Addon v1.7.0 - ビルド手順
+
+必要環境:
+- Java 21
+- Gradle 8.10.2（またはGitHub Actions）
+- Minecraft 1.21.1 / NeoForge 21.1.x
+
+推奨: GitHubへこのフォルダをアップロードすると、.github/workflows/build.yml が自動ビルドします。
+Actions -> Build L2H Armor Set Addon -> Artifacts からJARを取得できます。
+
+ローカル:
+  gradle clean build
+完成JAR:
+  build/libs/armorsets-1.7.0.jar
+
+v1.7.0 検証修正:
+- Java 21を明示
+- NeoForge 1.21.1 UserDev構成を維持
+- LivingDamageEvent.Post の実ダメージ判定を getHealthDamage() に変更
+- GitHub Actionsビルドを追加
+- 4/4フルセット限定の戦闘能力仕様を維持
+- バニラ防具には強力な戦闘発動能力を付与しない

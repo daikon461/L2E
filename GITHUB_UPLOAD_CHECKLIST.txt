@@ -1,0 +1,20 @@
+GitHubへアップロードする時の重要ファイル
+
+必ずフォルダ構造を保ったままアップロードしてください。
+
+.github/workflows/build.yml
+src/main/java/jp/oishi/armorsets/ArmorSetsMod.java
+src/main/java/jp/oishi/armorsets/CombatAbilities.java
+src/main/java/jp/oishi/armorsets/SetBonuses.java
+src/main/java/jp/oishi/armorsets/SetRegistry.java
+src/main/resources/META-INF/neoforge.mods.toml
+build.gradle
+settings.gradle
+gradle.properties
+gradlew
+gradlew.bat
+gradle/wrapper/gradle-wrapper.properties
+
+注意:
+GitHub Actions は gradle/actions/setup-gradle により Gradle 8.10.2 を取得するため、
+Actionsでのビルドに gradle-wrapper.jar は不要です。
