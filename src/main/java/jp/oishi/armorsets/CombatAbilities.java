@@ -119,7 +119,7 @@ public final class CombatAbilities {
             }
             case "hazennstuff:charged_scourge" -> {
                 buff(p, MobEffects.DAMAGE_BOOST, 120, 2); buff(p, MobEffects.MOVEMENT_SPEED, 120, 2);
-                fx(p, "雷霆の猛攻", ParticleTypes.ELECTRIC_SPARK, SoundEvents.TRIDENT_THUNDER);
+                fx(p, "雷霆の猛攻", ParticleTypes.ELECTRIC_SPARK, SoundEvents.TRIDENT_THUNDER.value());
             }
             case "hazennstuff:soul_flame" -> {
                 buff(p, MobEffects.DAMAGE_BOOST, 160, 3); buff(p, MobEffects.FIRE_RESISTANCE, 180, 0);
@@ -711,7 +711,7 @@ public final class CombatAbilities {
                     fx(p, "氷霜の共鳴", ParticleTypes.SNOWFLAKE, SoundEvents.GLASS_BREAK);
                 } else if (school.equals("lightning")) {
                     buff(p, MobEffects.MOVEMENT_SPEED, 120, 2); buff(p, MobEffects.DAMAGE_BOOST, 100, 2);
-                    fx(p, "雷の共鳴", ParticleTypes.ELECTRIC_SPARK, SoundEvents.TRIDENT_THUNDER);
+                    fx(p, "雷の共鳴", ParticleTypes.ELECTRIC_SPARK, SoundEvents.TRIDENT_THUNDER.value());
                 } else if (school.equals("holy") || school.equals("nature")) {
                     buff(p, MobEffects.REGENERATION, 120, 2); buff(p, MobEffects.ABSORPTION, 120, 1);
                     fx(p, "生命の共鳴", ParticleTypes.HAPPY_VILLAGER, SoundEvents.AMETHYST_BLOCK_CHIME);

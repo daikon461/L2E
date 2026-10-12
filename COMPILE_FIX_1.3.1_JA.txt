@@ -1,0 +1,1 @@
+v1.3.1: CombatAbilities.java の122行目と714行目にある SoundEvents.TRIDENT_THUNDER を .value() で SoundEvent に変換。その他の能力・設定は変更なし。GitHub Actionsでのコンパイルは未確認。
