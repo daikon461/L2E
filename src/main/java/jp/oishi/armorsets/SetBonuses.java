@@ -83,12 +83,12 @@ public final class SetBonuses {
     private record PhysicalBonus(int ad2,int hp2,int ad3,int armor3,int tough3,int ad4,int hp4,int speed4,double kb4) {}
     private static PhysicalBonus physicalBonus(SetRegistry.ArmorSet s){
         return switch(s.key()){
-            case "minecraft:leather" -> new PhysicalBonus(2,3,2,0,0,3,4,5,.00);
-            case "minecraft:golden" -> new PhysicalBonus(3,2,3,0,0,4,3,3,.00);
-            case "minecraft:chainmail" -> new PhysicalBonus(3,4,3,1,0,5,5,2,.02);
-            case "minecraft:iron" -> new PhysicalBonus(3,5,3,2,1,5,7,1,.03);
-            case "minecraft:diamond" -> new PhysicalBonus(4,6,4,2,1,7,9,2,.04);
-            case "minecraft:netherite" -> new PhysicalBonus(5,7,5,3,2,9,12,2,.06);
+            case "minecraft:leather" -> new PhysicalBonus(4,5,3,0,0,5,6,7,.00);
+            case "minecraft:golden" -> new PhysicalBonus(5,4,4,0,0,6,5,5,.00);
+            case "minecraft:chainmail" -> new PhysicalBonus(5,6,4,1,0,7,7,3,.03);
+            case "minecraft:iron" -> new PhysicalBonus(5,7,4,2,1,7,9,2,.04);
+            case "minecraft:diamond" -> new PhysicalBonus(6,8,5,3,2,9,11,3,.05);
+            case "minecraft:netherite" -> new PhysicalBonus(7,9,6,4,2,11,15,3,.08);
             default -> { int t=s.tier(); yield new PhysicalBonus(18+t*7,23+t*9,10+t*4,3+t*2,1+t,18+t*6,20+t*8,6+t*2,Math.min(.35,.08+t*.05)); }
         };
     }
@@ -128,7 +128,7 @@ public final class SetBonuses {
                 case "legionnaire" -> { add(p,Attributes.ATTACK_DAMAGE,k+"/hazen/ad",pct(32)); addValue(p,Attributes.ARMOR,k+"/hazen/armor",7); }
                 case "fireblossom_knight" -> { add(p,Attributes.ATTACK_DAMAGE,k+"/hazen/ad",pct(26)); addRL(p,"irons_spellbooks:fire_spell_power",k+"/hazen/fire",pct(20)); }
                 case "creaking" -> { add(p,Attributes.MAX_HEALTH,k+"/hazen/hp",pct(28)); addValue(p,Attributes.ARMOR,k+"/hazen/armor",5); }
-                default -> { }
+                default -> applyHazenRole(p,s);
             }
         }
         // Every magic set gets a school-flavoured capstone. Values are intentionally high for L2Hostility.
@@ -151,6 +151,32 @@ public final class SetBonuses {
         addRL(p,"irons_spellbooks:max_mana",k+"/mastery/mana",pct(manaPct));
         addRL(p,"irons_spellbooks:mana_regen",k+"/mastery/regen",pct(regenPct));
         addRL(p,"irons_spellbooks:cooldown_reduction",k+"/mastery/cd",pct(cdPct));
+    }
+
+    // Distinct passive combat roles for the remaining Hazen armor sets.
+    // Stable modifier IDs, removed by clear() on every refresh.
+    private static void applyHazenRole(Player p, SetRegistry.ArmorSet s) {
+        String k=s.key(), n=k.substring("hazennstuff:".length());
+        int t=s.tier();
+        if (n.contains("knight") || n.contains("legionnaire") || n.contains("commander") || n.contains("templar") || n.contains("guardian")) {
+            addValue(p,Attributes.ARMOR,k+"/hazenrole/armor",3+t*2);
+            add(p,Attributes.MAX_HEALTH,k+"/hazenrole/hp",pct(10+t*5));
+        } else if (n.contains("hunter") || n.contains("predator") || n.contains("scout") || n.contains("weaver")) {
+            add(p,Attributes.MOVEMENT_SPEED,k+"/hazenrole/speed",pct(9+t*3));
+            add(p,Attributes.ATTACK_SPEED,k+"/hazenrole/haste",pct(10+t*4));
+        } else if (n.contains("robe") || n.contains("mage") || n.contains("witch") || n.contains("gown")) {
+            addRL(p,"irons_spellbooks:max_mana",k+"/hazenrole/mana",pct(14+t*7));
+            addRL(p,"irons_spellbooks:mana_regen",k+"/hazenrole/regen",pct(12+t*6));
+        } else if (s.school().equals("fire") || s.school().equals("lightning")) {
+            add(p,Attributes.ATTACK_DAMAGE,k+"/hazenrole/ad",pct(10+t*4));
+            add(p,Attributes.ATTACK_SPEED,k+"/hazenrole/haste",pct(7+t*3));
+        } else if (s.school().equals("ice") || s.school().equals("nature")) {
+            addValue(p,Attributes.ARMOR_TOUGHNESS,k+"/hazenrole/tough",2+t);
+            add(p,Attributes.MAX_HEALTH,k+"/hazenrole/hp",pct(10+t*5));
+        } else {
+            add(p,Attributes.ATTACK_DAMAGE,k+"/hazenrole/ad",pct(8+t*4));
+            add(p,Attributes.MAX_HEALTH,k+"/hazenrole/hp",pct(8+t*4));
+        }
     }
 
     private static String fullSetMasteryText(SetRegistry.ArmorSet s){

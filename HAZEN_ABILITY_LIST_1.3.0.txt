@@ -1,0 +1,64 @@
+Hazen full set abilities (attack-triggered except existing defensive sets)
+dark_ritual_templar: Dark Ritual Templarの覚醒
+arbitrium_robes: Arbitrium Robesの覚醒
+ascended_arbitrium_robes: Ascended Arbitrium Robesの覚醒
+legacy_fireblossom: Legacy Fireblossomの覚醒
+fireblossom_gown: Fireblossom Gownの覚醒
+fireblossom_battlemage: Fireblossom Battlemageの覚醒
+frieren: Frierenの覚醒
+project_sekai: Project Sekaiの覚醒
+rotten_girl: Rotten Girlの覚醒
+synthesizer_v: Synthesizer Vの覚醒
+utau: Utauの覚醒
+atlas: Atlasの覚醒
+miner: Minerの覚醒
+spectral_spelunker: Spectral Spelunkerの覚醒
+calamitas: Calamitasの覚醒
+maverick: Maverickの覚醒
+slc_cat: Slc Catの覚醒
+blazeborne: Blazeborneの覚醒
+hazel: Hazelの覚醒
+mothic_witch: Mothic Witchの覚醒
+crystal_arachnid: Crystal Arachnidの覚醒
+herta_puppet: Herta Puppetの覚醒
+thunder_prowler: Thunder Prowlerの覚醒
+chlorophyte: Chlorophyteの覚醒
+the_wither: The Witherの覚醒
+dead_king: Dead Kingの覚醒
+gabriel_ultrakill: Gabriel Ultrakillの覚醒
+alchemist_supreme: Alchemist Supremeの覚醒
+mycelium_guardian: Mycelium Guardianの覚醒
+radiant_crystal: Radiant Crystalの覚醒
+glassweaver: Glassweaverの覚醒
+shadow_scale: Shadow Scaleの覚醒
+masked_fool: Masked Foolの覚醒
+shadow_jester: Shadow Jesterの覚醒
+cosmic_scholar: Cosmic Scholarの覚醒
+astraconic_weaver: Astraconic Weaverの覚醒
+nautilus_knight: Nautilus Knightの覚醒
+elder_guardian: Elder Guardianの覚醒
+infestation: Infestationの覚醒
+pyrium: Pyriumの覚醒
+pyrium_battlemage: Pyrium Battlemageの覚醒
+legionnaire_ruler: Legionnaire Rulerの覚醒
+soul_legionnaire_ruler: Soul Legionnaire Rulerの覚醒
+legionnaire_commander: Legionnaire Commanderの覚醒
+soul_legionnaire_commander: Soul Legionnaire Commanderの覚醒
+garments_of_the_first_flamebearer: Garments Of The First Flamebearerの覚醒
+garments_of_the_first_flamebearer_soul: Garments Of The First Flamebearer Soulの覚醒
+neru: Neruの覚醒
+giorno_giovanna: Giorno Giovannaの覚醒
+frostbite_knight: Frostbite Knightの覚醒
+dreadsteel_knight: Dreadsteel Knightの覚醒
+bounty_hunter: Bounty Hunterの覚醒
+frostbite_hunter: Frostbite Hunterの覚醒
+permafrost_prince: Permafrost Princeの覚醒
+magehunter: Magehunterの覚醒
+mithril_battlemage: Mithril Battlemageの覚醒
+abberant_predator: Abberant Predatorの覚醒
+iron431: Iron431の覚醒
+sacred_robes: Sacred Robesの覚醒
+ascended_iron431: Ascended Iron431の覚醒
+ascended_sacred_robes: Ascended Sacred Robesの覚醒
+lemon_god: Lemon Godの覚醒
+ascended_lemon_god: Ascended Lemon Godの覚醒
